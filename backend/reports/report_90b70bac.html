@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VAPT Report — https://octane.stpi.in/</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',system-ui,sans-serif;background:#F1F5F9;color:#1E293B;font-size:13.5px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+.cover{min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(155deg,#020C1B 0%,#0F2545 45%,#0B1D36 100%);color:white;padding:52px 60px 44px;page-break-after:always;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 75% 25%,rgba(59,130,246,0.12) 0%,transparent 60%),radial-gradient(ellipse at 25% 80%,rgba(99,102,241,0.08) 0%,transparent 50%);pointer-events:none;}
+.cover-logo{font-size:12px;font-weight:700;letter-spacing:3px;color:#64748B;text-transform:uppercase;margin-bottom:auto;}
+.confidential-tag{display:inline-block;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.35);color:#FCA5A5;padding:4px 14px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1.2px;margin-bottom:18px;text-transform:uppercase;}
+.cover-h1{font-size:44px;font-weight:800;line-height:1.08;margin-bottom:6px;letter-spacing:-0.5px;}
+.cover-sub{color:#94A3B8;font-weight:300;font-size:24px;display:block;margin-top:6px;letter-spacing:-0.2px;}
+.cover-meta{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:14px 32px;}
+.cover-meta-item label{font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:1.2px;display:block;margin-bottom:3px;font-weight:600;}
+.cover-meta-item value{font-size:13px;color:#CBD5E1;font-weight:500;display:block;font-family:'DM Mono',monospace;word-break:break-all;}
+.cover-risk-panel{margin-top:36px;display:flex;align-items:center;gap:32px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 28px;backdrop-filter:blur(4px);}
+.cover-risk-num{font-size:48px;font-weight:800;font-family:'DM Mono',monospace;line-height:1;}
+.cover-risk-denom{font-size:20px;color:#64748B;}
+.cover-risk-label{font-size:10px;color:#64748B;text-transform:uppercase;letter-spacing:1.2px;margin-top:4px;}
+.cover-risk-breakdown{display:flex;gap:20px;flex-wrap:wrap;}
+.cover-risk-item{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.cbig{font-size:22px;font-weight:800;line-height:1;font-family:'DM Mono',monospace;}
+.clab{font-size:9px;text-transform:uppercase;letter-spacing:1px;opacity:.7;}
+.cover-footer{margin-top:20px;font-size:10px;color:#334155;letter-spacing:.3px;}
+.page{max-width:980px;margin:0 auto;padding:40px 48px 60px;}
+.section-header{display:flex;align-items:center;gap:14px;margin:52px 0 20px;padding-bottom:14px;border-bottom:2px solid #E2E8F0;page-break-after:avoid;}
+.section-num{width:36px;height:36px;background:linear-gradient(135deg,#1E3A8A,#2563EB);color:white;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;letter-spacing:0.5px;font-family:'DM Mono',monospace;}
+.section-title{font-size:21px;font-weight:700;color:#0F172A;letter-spacing:-0.3px;}
+.exec-box{background:white;border:1px solid #E2E8F0;border-radius:12px;padding:22px 26px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.exec-text{color:#475569;line-height:1.85;font-size:14px;}
+.risk-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:0 0 20px;}
+.risk-card{border-radius:10px;padding:16px 10px;text-align:center;border:1px solid;background:white;}
+.risk-card-num{font-size:30px;font-weight:800;line-height:1;font-family:'DM Mono',monospace;}
+.risk-card-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-top:3px;font-weight:700;}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 0;}
+.chart-box{background:white;border:1px solid #E2E8F0;border-radius:12px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.chart-title{font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;}
+.chart-container{height:210px;position:relative;}
+.priority-table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;border:1px solid #E2E8F0;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.priority-table th{background:#0F172A;color:#CBD5E1;padding:10px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;}
+.priority-table td{padding:9px 14px;border-bottom:1px solid #F1F5F9;font-size:12px;vertical-align:middle;}
+.priority-table tr:last-child td{border-bottom:none;}
+.priority-table tr:hover td{background:#FAFBFF;}
+.owasp-table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;border:1px solid #E2E8F0;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.owasp-table th{background:#F8FAFC;padding:10px 14px;text-align:left;font-size:10px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid #E2E8F0;}
+.owasp-table td{padding:10px 14px;border-bottom:1px solid #F1F5F9;font-size:12.5px;}
+.owasp-table tr:last-child td{border-bottom:none;}
+.owasp-pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;margin-right:3px;}
+.toc{background:white;border:1px solid #E2E8F0;border-radius:12px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.toc-item{display:flex;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid #F8FAFC;}
+.toc-item:last-child{border-bottom:none;}
+.toc-num{font-size:10px;color:#94A3B8;font-family:'DM Mono',monospace;min-width:44px;}
+.toc-title{flex:1;font-size:12.5px;color:#334155;}
+.finding{background:white;border:1px solid #E2E8F0;border-radius:13px;margin-bottom:20px;overflow:hidden;page-break-inside:avoid;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.finding-header{padding:16px 20px;border-bottom:1px solid #F1F5F9;display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+.finding-num{font-size:10px;color:#94A3B8;font-family:'DM Mono',monospace;background:#F8FAFC;padding:2px 7px;border-radius:4px;margin-top:3px;flex-shrink:0;border:1px solid #E2E8F0;}
+.finding-title{font-size:16px;font-weight:700;color:#0F172A;flex:1;min-width:200px;letter-spacing:-0.2px;}
+.sev-badge{padding:4px 12px;border-radius:6px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;flex-shrink:0;}
+.cvss-badge{padding:3px 9px;border-radius:6px;font-size:10px;font-weight:700;background:#1E40AF;color:white;flex-shrink:0;font-family:'DM Mono',monospace;}
+.method-badge{padding:2px 8px;border-radius:4px;font-size:9px;font-weight:800;letter-spacing:.5px;flex-shrink:0;}
+.confirmed-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:5px;font-size:9px;font-weight:800;background:rgba(22,163,74,0.10);color:#15803D;border:1px solid rgba(22,163,74,0.28);letter-spacing:.3px;flex-shrink:0;}
+.finding-meta{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:6px 14px;padding:10px 20px;background:#FAFAFA;border-bottom:1px solid #F1F5F9;font-size:11.5px;}
+.meta-label{color:#64748B;font-weight:700;white-space:nowrap;}
+.meta-val{color:#334155;font-family:'DM Mono',monospace;word-break:break-all;font-size:11px;}
+.affected-urls{padding:8px 20px;background:#FAFAFA;border-bottom:1px solid #F1F5F9;}
+.affected-urls-label{font-size:10px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;}
+.affected-urls-list{display:flex;flex-wrap:wrap;gap:5px;}
+.url-pill{font-size:10px;font-family:'DM Mono',monospace;background:#F1F5F9;color:#334155;padding:2px 9px;border-radius:4px;border:1px solid #E2E8F0;}
+.finding-body{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.finding-section h4{font-size:10px;font-weight:800;color:#64748B;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.finding-section h4::before{content:'';display:inline-block;width:3px;height:11px;background:#3B82F6;border-radius:2px;}
+.finding-section p{font-size:13px;color:#475569;line-height:1.75;}
+.finding-section.full-width{grid-column:1/-1;}
+.impact-box{background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:12px;}
+.impact-box p{color:#92400E;font-size:12.5px;line-height:1.65;}
+.fix-box{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px;}
+.fix-box p{color:#166534;font-size:12.5px;line-height:1.65;}
+.evidence-box{background:#0D1117;border:1px solid #21262D;border-radius:8px;padding:12px 14px;font-family:'DM Mono',monospace;font-size:11px;color:#C9D1D9;overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:160px;overflow-y:auto;line-height:1.6;}
+.http-evidence-wrap{margin-top:4px;}
+.ev-toggle{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:5px;font-size:10px;font-weight:700;background:#F8FAFC;border:1px solid #E2E8F0;color:#475569;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:8px;}
+.ev-toggle:hover{background:#F1F5F9;}
+.ev-body{display:none;}
+.http-card{border:1px solid #21262D;border-radius:8px;overflow:hidden;margin-bottom:8px;}
+.http-card-head{background:#161B22;padding:6px 12px;display:flex;align-items:center;gap:10px;}
+.http-card-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1px;}
+.http-card-label.req{color:#F59E0B;}
+.http-card-label.res{color:#34D399;}
+.http-card-meta{font-size:9px;color:#6B7280;font-family:'DM Mono',monospace;}
+.http-card-body{background:#0D1117;padding:10px 12px;font-family:'DM Mono',monospace;font-size:10.5px;color:#C9D1D9;white-space:pre-wrap;word-break:break-all;max-height:220px;overflow-y:auto;line-height:1.65;}
+.http-method{color:#F59E0B;font-weight:700;}
+.http-status-ok{color:#34D399;}
+.http-status-err{color:#F87171;}
+.http-header-key{color:#79C0FF;}
+.http-header-val{color:#A5D6FF;}
+.cvss-block{background:#F0F9FF;border:1px solid #BAE6FD;border-radius:8px;padding:10px 12px;margin-top:8px;}
+.cvss-score-big{font-size:26px;font-weight:800;font-family:'DM Mono',monospace;}
+.cvss-vector{font-size:9.5px;color:#475569;font-family:'DM Mono',monospace;word-break:break-all;margin-top:3px;}
+.refs{display:flex;flex-wrap:wrap;gap:5px;}
+.ref-link{color:#2563EB;font-size:11.5px;text-decoration:none;background:#EFF6FF;padding:3px 9px;border-radius:5px;border:1px solid #BFDBFE;}
+.ref-link:hover{background:#DBEAFE;}
+.report-footer{margin-top:48px;padding-top:14px;border-top:1px solid #E2E8F0;display:flex;align-items:center;gap:12px;font-size:11px;color:#94A3B8;}
+@media print {
+  @page{size:A4 portrait;margin:18mm 16mm 22mm 16mm;}
+  @page :first{margin:0;}
+  body{background:white;font-size:11px;}
+  .cover{page-break-after:always;min-height:0;height:297mm;padding:40mm 20mm 20mm;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .page{padding:0;max-width:100%;}
+  .section-header{margin:28px 0 14px;page-break-after:avoid;}
+  .finding{page-break-inside:avoid;margin-bottom:14px;box-shadow:none;}
+  .finding-header{padding:12px 16px;}
+  .finding-body{padding:12px 16px;gap:12px;}
+  .ev-body{display:block !important;}
+  .ev-toggle{display:none !important;}
+  .http-card-body{max-height:none;overflow:visible;}
+  .evidence-box{max-height:none;overflow:visible;}
+  .report-footer{display:none;}
+  .section-num,.sev-badge,.cvss-badge,.method-badge,.confirmed-badge,.priority-table th,.cover,.cover-risk-panel,.impact-box,.fix-box,.cvss-block,.http-card-head,.http-card-body,.evidence-box{print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  a{color:inherit !important;text-decoration:none !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-logo">■ VAPT<span style="color:#60A5FA;">Forge</span>&nbsp; Enterprise</div>
+  <div style="margin-top:56px;">
+    <div class="confidential-tag">CONFIDENTIAL — AUTHORIZED USE ONLY</div>
+    <h1 class="cover-h1">Security Assessment<span class="cover-sub">Vulnerability &amp; Penetration Testing Report</span></h1>
+  </div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><label>Target System</label><value>https://octane.stpi.in/</value></div>
+    <div class="cover-meta-item"><label>Organization</label><value>Default Organization</value></div>
+    <div class="cover-meta-item"><label>Report Date</label><value>May 24, 2026</value></div>
+    <div class="cover-meta-item"><label>Report ID</label><value>90b70bac</value></div>
+    <div class="cover-meta-item"><label>Classification</label><value>CONFIDENTIAL</value></div>
+    <div class="cover-meta-item"><label>Generated</label><value>2026-05-24 09:07 UTC</value></div>
+  </div>
+  <div class="cover-risk-panel">
+    <div class="cover-risk-score">
+      <div class="cover-risk-num" style="color:#DC2626;">8.1<span class="cover-risk-denom">/10</span></div>
+      <div class="cover-risk-label">Overall Risk Score</div>
+    </div>
+    <div class="cover-risk-breakdown">
+      <div class="cover-risk-item" style="color:#FCA5A5;"><span class="cbig">0</span><span class="clab">Critical</span></div>
+      <div class="cover-risk-item" style="color:#FDB87D;"><span class="cbig">5</span><span class="clab">High</span></div>
+      <div class="cover-risk-item" style="color:#FDE68A;"><span class="cbig">8</span><span class="clab">Medium</span></div>
+      <div class="cover-risk-item" style="color:#93C5FD;"><span class="cbig">6</span><span class="clab">Low</span></div>
+      <div class="cover-risk-item" style="color:#94A3B8;"><span class="cbig">0</span><span class="clab">Info</span></div>
+    </div>
+  </div>
+  <div class="cover-footer">19 unique findings (duplicates merged) &nbsp;·&nbsp; VAPTForge Enterprise v4.0.0</div>
+</div>
+
+<div class="page">
+  <div class="section-header" id="s1"><div class="section-num">01</div><div class="section-title">Executive Summary</div></div>
+  <div class="exec-box"><p class="exec-text">The vulnerability assessment of <strong>https://octane.stpi.in/</strong> has identified <strong>CRITICAL</strong> security exposures requiring immediate remediation. 0 critical and 5 high severity issues present a substantial risk to data confidentiality, system integrity, and service availability. Exploitation of the identified critical vulnerabilities may result in full system compromise or exfiltration of sensitive data. Immediate action is strongly recommended.</p></div>
+  <div class="risk-grid">
+    <div class="risk-card" style="background:#FEF2F2;border-color:#FECACA;"><div class="risk-card-num" style="color:#DC2626;">0</div><div class="risk-card-label" style="color:#DC2626;">Critical</div></div>
+    <div class="risk-card" style="background:#FFF7ED;border-color:#FED7AA;"><div class="risk-card-num" style="color:#EA580C;">5</div><div class="risk-card-label" style="color:#EA580C;">High</div></div>
+    <div class="risk-card" style="background:#FFFBEB;border-color:#FDE68A;"><div class="risk-card-num" style="color:#D97706;">8</div><div class="risk-card-label" style="color:#D97706;">Medium</div></div>
+    <div class="risk-card" style="background:#EFF6FF;border-color:#BFDBFE;"><div class="risk-card-num" style="color:#2563EB;">6</div><div class="risk-card-label" style="color:#2563EB;">Low</div></div>
+    <div class="risk-card" style="background:#F9FAFB;border-color:#E5E7EB;"><div class="risk-card-num" style="color:#6B7280;">0</div><div class="risk-card-label" style="color:#6B7280;">Info</div></div>
+  </div>
+  <div class="chart-row">
+    <div class="chart-box"><h4 class="chart-title">Severity Distribution</h4><div class="chart-container"><svg viewBox="0 0 370 190" width="100%" height="190" xmlns="http://www.w3.org/2000/svg"><path d="M 88.0 23.0 A 72 72 0 0 1 159.8 100.9 L 125.9 98.1 A 38 38 0 0 0 88.0 57.0 Z" fill="#EA580C" stroke="white" stroke-width="2.5"/><path d="M 159.8 100.9 A 72 72 0 0 1 22.1 123.9 L 53.2 110.3 A 38 38 0 0 0 125.9 98.1 Z" fill="#D97706" stroke="white" stroke-width="2.5"/><path d="M 22.1 123.9 A 72 72 0 0 1 88.0 23.0 L 88.0 57.0 A 38 38 0 0 0 53.2 110.3 Z" fill="#2563EB" stroke="white" stroke-width="2.5"/><text x="88" y="90" text-anchor="middle" font-size="24" font-weight="800" fill="#0F172A" font-family="DM Sans,Arial,sans-serif">19</text><text x="88" y="109" text-anchor="middle" font-size="10" fill="#64748B" font-family="DM Sans,Arial,sans-serif">Total</text><rect x="182" y="22" width="11" height="11" rx="3" fill="#EA580C"/><text x="198" y="31" font-size="11" fill="#475569" font-family="DM Sans,Arial,sans-serif">High: 5</text><rect x="182" y="43" width="11" height="11" rx="3" fill="#D97706"/><text x="198" y="52" font-size="11" fill="#475569" font-family="DM Sans,Arial,sans-serif">Medium: 8</text><rect x="182" y="64" width="11" height="11" rx="3" fill="#2563EB"/><text x="198" y="73" font-size="11" fill="#475569" font-family="DM Sans,Arial,sans-serif">Low: 6</text></svg></div></div>
+    <div class="chart-box"><h4 class="chart-title">OWASP Top 10 Coverage</h4><div class="chart-container"><svg viewBox="0 0 368 180" width="100%" height="180" xmlns="http://www.w3.org/2000/svg"><text x="24" y="153" text-anchor="end" font-size="9" fill="#94A3B8" font-family="DM Sans,Arial,sans-serif">0</text><line x1="28" y1="150" x2="398" y2="150" stroke="#F1F5F9" stroke-width="1"/><text x="24" y="83" text-anchor="end" font-size="9" fill="#94A3B8" font-family="DM Sans,Arial,sans-serif">4</text><line x1="28" y1="80" x2="398" y2="80" stroke="#F1F5F9" stroke-width="1"/><text x="24" y="13" text-anchor="end" font-size="9" fill="#94A3B8" font-family="DM Sans,Arial,sans-serif">8</text><line x1="28" y1="10" x2="398" y2="10" stroke="#F1F5F9" stroke-width="1"/><rect x="28" y="98" width="26" height="52" fill="#DC2626" rx="3" opacity="0.9"/><text x="41" y="94" text-anchor="middle" font-size="9" fill="#475569" font-family="DM Sans,Arial,sans-serif">3</text><rect x="61" y="98" width="26" height="52" fill="#EA580C" rx="3" opacity="0.9"/><text x="74" y="94" text-anchor="middle" font-size="9" fill="#475569" font-family="DM Sans,Arial,sans-serif">3</text><rect x="94" y="150" width="26" height="0" fill="#D97706" rx="3" opacity="0.9"/><rect x="127" y="150" width="26" height="0" fill="#6B7280" rx="3" opacity="0.9"/><rect x="160" y="10" width="26" height="140" fill="#3B82F6" rx="3" opacity="0.9"/><text x="173" y="6" text-anchor="middle" font-size="9" fill="#475569" font-family="DM Sans,Arial,sans-serif">8</text><rect x="193" y="150" width="26" height="0" fill="#8B5CF6" rx="3" opacity="0.9"/><rect x="226" y="80" width="26" height="70" fill="#EC4899" rx="3" opacity="0.9"/><text x="239" y="76" text-anchor="middle" font-size="9" fill="#475569" font-family="DM Sans,Arial,sans-serif">4</text><rect x="259" y="133" width="26" height="17" fill="#14B8A6" rx="3" opacity="0.9"/><text x="272" y="129" text-anchor="middle" font-size="9" fill="#475569" font-family="DM Sans,Arial,sans-serif">1</text><rect x="292" y="150" width="26" height="0" fill="#F59E0B" rx="3" opacity="0.9"/><rect x="325" y="150" width="26" height="0" fill="#10B981" rx="3" opacity="0.9"/><text x="41" y="164" text-anchor="middle" font-size="9" fill="#64748B" font-family="DM Sans,Arial,sans-serif">A01</text><text x="74" y="164" text-anchor="middle" font-size="9" fill="#64748B" font-family="DM Sans,Arial,sans-serif">A02</text><text x="107" y="164" text-anchor="middle" font-size="9" fill="#64748B" font-family="DM Sans,Arial,sans-serif">A03</text><text x="140" y="164" text-anchor="middle" font-size="9" fill="#64748B" font-family="DM Sans,Arial,sans-serif">A04</text><text x="173" y="164" text-anchor="middle" font-size="9" fill="#64748B" font-family="DM Sans,Arial,sans-serif">A05</text><text x="206" y="164" text-anchor="middle" font-size="9" fill="#64748B" font-family="DM Sans,Arial,sans-serif">A06</text><text x="239" y="164" text-anchor="middle" font-size="9" fill="#64748B" font-family="DM Sans,Arial,sans-serif">A07</text><text x="272" y="164" text-anchor="middle" font-size="9" fill="#64748B" font-family="DM Sans,Arial,sans-serif">A08</text><text x="305" y="164" text-anchor="middle" font-size="9" fill="#64748B" font-family="DM Sans,Arial,sans-serif">A09</text><text x="338" y="164" text-anchor="middle" font-size="9" fill="#64748B" font-family="DM Sans,Arial,sans-serif">A10</text><line x1="28" y1="10" x2="28" y2="150" stroke="#E2E8F0" stroke-width="1"/><line x1="28" y1="150" x2="363" y2="150" stroke="#E2E8F0" stroke-width="1"/></svg></div></div>
+  </div>
+  <div class="section-header" id="s2"><div class="section-num">02</div><div class="section-title">Remediation Priority Matrix</div></div>
+  <table class="priority-table"><thead><tr><th>Priority</th><th>Finding</th><th>Severity</th><th>OWASP</th><th>CVSS v3</th><th>Endpoints</th><th>Timeline</th></tr></thead><tbody><tr><td style="font-weight:800;color:#EA580C;font-family:DM Mono,monospace;">P2</td><td><span style="font-weight:600;color:#1E293B;">Missing Content-Security-Policy Header</span><span style="margin-left:6px;"><span class="confirmed-badge">✓ CONFIRMED BY SAST + DAST</span></span></td><td><span style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">HIGH</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A05</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">7.5</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Short-term (1-2 weeks)</td></tr><tr><td style="font-weight:800;color:#EA580C;font-family:DM Mono,monospace;">P2</td><td><span style="font-weight:600;color:#1E293B;">Missing HSTS Header</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(168,85,247,0.1);color:#9333EA;border:1px solid rgba(168,85,247,0.28);">SAST</span></span></td><td><span style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">HIGH</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A05</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">7.5</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Short-term (1-2 weeks)</td></tr><tr><td style="font-weight:800;color:#EA580C;font-family:DM Mono,monospace;">P2</td><td><span style="font-weight:600;color:#1E293B;">Sensitive Endpoint Accessible Without Auth: /admin</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span></span></td><td><span style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">HIGH</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A01</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">8.1</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Short-term (1-2 weeks)</td></tr><tr><td style="font-weight:800;color:#EA580C;font-family:DM Mono,monospace;">P2</td><td><span style="font-weight:600;color:#1E293B;">Sensitive Endpoint Accessible Without Auth: /admin/</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span></span></td><td><span style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">HIGH</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A01</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">8.1</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Short-term (1-2 weeks)</td></tr><tr><td style="font-weight:800;color:#EA580C;font-family:DM Mono,monospace;">P2</td><td><span style="font-weight:600;color:#1E293B;">Sensitive Data Exposed in Response: possible credit card num</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span></span></td><td><span style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">HIGH</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A02</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">7.5</td><td style="font-size:11px;color:#64748B;">2 endpoints</td><td style="font-size:11px;color:#475569;">Short-term (1-2 weeks)</td></tr><tr><td style="font-weight:800;color:#D97706;font-family:DM Mono,monospace;">P3</td><td><span style="font-weight:600;color:#1E293B;">Missing HSTS Header</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span></span></td><td><span style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">MEDIUM</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A02</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">5.9</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Medium-term (1 month)</td></tr><tr><td style="font-weight:800;color:#D97706;font-family:DM Mono,monospace;">P3</td><td><span style="font-weight:600;color:#1E293B;">Missing X-Content-Type-Options Header</span><span style="margin-left:6px;"><span class="confirmed-badge">✓ CONFIRMED BY SAST + DAST</span></span></td><td><span style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">MEDIUM</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A05</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">5.3</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Medium-term (1 month)</td></tr><tr><td style="font-weight:800;color:#D97706;font-family:DM Mono,monospace;">P3</td><td><span style="font-weight:600;color:#1E293B;">Missing X-Frame-Options Header</span><span style="margin-left:6px;"><span class="confirmed-badge">✓ CONFIRMED BY SAST + DAST</span></span></td><td><span style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">MEDIUM</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A05</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">5.3</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Medium-term (1 month)</td></tr><tr><td style="font-weight:800;color:#D97706;font-family:DM Mono,monospace;">P3</td><td><span style="font-weight:600;color:#1E293B;">Cookie Missing HttpOnly Flag</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(168,85,247,0.1);color:#9333EA;border:1px solid rgba(168,85,247,0.28);">SAST</span></span></td><td><span style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">MEDIUM</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A07</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">6.5</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Medium-term (1 month)</td></tr><tr><td style="font-weight:800;color:#D97706;font-family:DM Mono,monospace;">P3</td><td><span style="font-weight:600;color:#1E293B;">Dangerous HTTP Methods Enabled: TRACE</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span></span></td><td><span style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">MEDIUM</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A01</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">6.5</td><td style="font-size:11px;color:#64748B;">7 endpoints</td><td style="font-size:11px;color:#475569;">Medium-term (1 month)</td></tr><tr><td style="font-weight:800;color:#D97706;font-family:DM Mono,monospace;">P3</td><td><span style="font-weight:600;color:#1E293B;">Mixed Content — HTTP Resources on HTTPS Page</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span></span></td><td><span style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">MEDIUM</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A02</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">5.9</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Medium-term (1 month)</td></tr><tr><td style="font-weight:800;color:#D97706;font-family:DM Mono,monospace;">P3</td><td><span style="font-weight:600;color:#1E293B;">Session Cookie Missing HttpOnly Flag</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span></span></td><td><span style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">MEDIUM</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A07</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">6.5</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Medium-term (1 month)</td></tr><tr><td style="font-weight:800;color:#D97706;font-family:DM Mono,monospace;">P3</td><td><span style="font-weight:600;color:#1E293B;">Subresource Integrity (SRI) Attribute Missing</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span></span></td><td><span style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">MEDIUM</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A08</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">5.5</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Medium-term (1 month)</td></tr><tr><td style="font-weight:800;color:#2563EB;font-family:DM Mono,monospace;">P4</td><td><span style="font-weight:600;color:#1E293B;">Missing Referrer-Policy</span><span style="margin-left:6px;"><span class="confirmed-badge">✓ CONFIRMED BY SAST + DAST</span></span></td><td><span style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">LOW</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A05</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">2.7</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Long-term (3 months)</td></tr><tr><td style="font-weight:800;color:#2563EB;font-family:DM Mono,monospace;">P4</td><td><span style="font-weight:600;color:#1E293B;">Missing Permissions-Policy</span><span style="margin-left:6px;"><span class="confirmed-badge">✓ CONFIRMED BY SAST + DAST</span></span></td><td><span style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">LOW</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A05</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">2.7</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Long-term (3 months)</td></tr><tr><td style="font-weight:800;color:#2563EB;font-family:DM Mono,monospace;">P4</td><td><span style="font-weight:600;color:#1E293B;">Server Technology Version Disclosed: Microsoft-IIS/8.5</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span></span></td><td><span style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">LOW</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A05</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">2.7</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Long-term (3 months)</td></tr><tr><td style="font-weight:800;color:#2563EB;font-family:DM Mono,monospace;">P4</td><td><span style="font-weight:600;color:#1E293B;">Server Version Disclosure</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(168,85,247,0.1);color:#9333EA;border:1px solid rgba(168,85,247,0.28);">SAST</span></span></td><td><span style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">LOW</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A05</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">2.7</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Long-term (3 months)</td></tr><tr><td style="font-weight:800;color:#2563EB;font-family:DM Mono,monospace;">P4</td><td><span style="font-weight:600;color:#1E293B;">Session Cookie Missing SameSite</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span></span></td><td><span style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">LOW</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A07</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">4.2</td><td style="font-size:11px;color:#64748B;">1 endpoint</td><td style="font-size:11px;color:#475569;">Long-term (3 months)</td></tr><tr><td style="font-weight:800;color:#2563EB;font-family:DM Mono,monospace;">P4</td><td><span style="font-weight:600;color:#1E293B;">Password Field Allows Autocomplete</span><span style="margin-left:6px;"><span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span></span></td><td><span style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;">LOW</span></td><td style="font-family:DM Mono,monospace;font-size:11px;">A07</td><td style="font-family:DM Mono,monospace;font-size:11px;color:#1E40AF;font-weight:700;">4.2</td><td style="font-size:11px;color:#64748B;">2 endpoints</td><td style="font-size:11px;color:#475569;">Long-term (3 months)</td></tr></tbody></table>
+  <div class="section-header" id="s3"><div class="section-num">03</div><div class="section-title">OWASP Top 10 Coverage</div></div>
+  <table class="owasp-table"><thead><tr><th>Category</th><th>Name</th><th style="text-align:center;">Findings</th><th>Severity Breakdown</th></tr></thead><tbody><tr><td><b style="font-family:DM Mono,monospace;">A01</b></td><td>Broken Access Control</td><td style="text-align:center;"><span style="color:#DC2626;font-weight:800;font-family:DM Mono,monospace;">3</span></td><td><span class="owasp-pill" style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;">2×high</span> <span class="owasp-pill" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">1×medium</span></td></tr><tr><td><b style="font-family:DM Mono,monospace;">A02</b></td><td>Cryptographic Failures</td><td style="text-align:center;"><span style="color:#DC2626;font-weight:800;font-family:DM Mono,monospace;">3</span></td><td><span class="owasp-pill" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">2×medium</span> <span class="owasp-pill" style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;">1×high</span></td></tr><tr><td><b style="font-family:DM Mono,monospace;">A03</b></td><td>Injection</td><td style="text-align:center;"><span style="color:#22C55E;font-weight:800;font-family:DM Mono,monospace;">0</span></td><td><span style="color:#94A3B8;">—</span></td></tr><tr><td><b style="font-family:DM Mono,monospace;">A04</b></td><td>Insecure Design</td><td style="text-align:center;"><span style="color:#22C55E;font-weight:800;font-family:DM Mono,monospace;">0</span></td><td><span style="color:#94A3B8;">—</span></td></tr><tr><td><b style="font-family:DM Mono,monospace;">A05</b></td><td>Security Misconfiguration</td><td style="text-align:center;"><span style="color:#DC2626;font-weight:800;font-family:DM Mono,monospace;">8</span></td><td><span class="owasp-pill" style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;">2×high</span> <span class="owasp-pill" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">2×medium</span> <span class="owasp-pill" style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;">4×low</span></td></tr><tr><td><b style="font-family:DM Mono,monospace;">A06</b></td><td>Vulnerable &amp; Outdated Components</td><td style="text-align:center;"><span style="color:#22C55E;font-weight:800;font-family:DM Mono,monospace;">0</span></td><td><span style="color:#94A3B8;">—</span></td></tr><tr><td><b style="font-family:DM Mono,monospace;">A07</b></td><td>Identification &amp; Authentication Failures</td><td style="text-align:center;"><span style="color:#DC2626;font-weight:800;font-family:DM Mono,monospace;">4</span></td><td><span class="owasp-pill" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">2×medium</span> <span class="owasp-pill" style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;">2×low</span></td></tr><tr><td><b style="font-family:DM Mono,monospace;">A08</b></td><td>Software &amp; Data Integrity Failures</td><td style="text-align:center;"><span style="color:#DC2626;font-weight:800;font-family:DM Mono,monospace;">1</span></td><td><span class="owasp-pill" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">1×medium</span></td></tr><tr><td><b style="font-family:DM Mono,monospace;">A09</b></td><td>Security Logging &amp; Monitoring Failures</td><td style="text-align:center;"><span style="color:#22C55E;font-weight:800;font-family:DM Mono,monospace;">0</span></td><td><span style="color:#94A3B8;">—</span></td></tr><tr><td><b style="font-family:DM Mono,monospace;">A10</b></td><td>Server-Side Request Forgery</td><td style="text-align:center;"><span style="color:#22C55E;font-weight:800;font-family:DM Mono,monospace;">0</span></td><td><span style="color:#94A3B8;">—</span></td></tr></tbody></table>
+  <div class="section-header" id="s4"><div class="section-num">04</div><div class="section-title">Findings Index</div></div>
+  <div class="toc"><div class="toc-item"><span class="toc-num">#001</span><a href="#finding-1" style="text-decoration:none;flex:1;"><span class="toc-title">Missing Content-Security-Policy Header <span style="font-size:9px;color:#15803D;font-weight:800;" title="Confirmed by SAST and DAST">✓</span></span></a><span style="font-size:10.5px;color:#EA580C;font-weight:700;padding:2px 9px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:5px;">HIGH · CVSS 7.5</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A05</span></div><div class="toc-item"><span class="toc-num">#002</span><a href="#finding-2" style="text-decoration:none;flex:1;"><span class="toc-title">Missing HSTS Header <span style="font-size:9px;color:#9333EA;font-weight:700;">[SAST]</span></span></a><span style="font-size:10.5px;color:#EA580C;font-weight:700;padding:2px 9px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:5px;">HIGH · CVSS 7.5</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A05</span></div><div class="toc-item"><span class="toc-num">#003</span><a href="#finding-3" style="text-decoration:none;flex:1;"><span class="toc-title">Sensitive Endpoint Accessible Without Auth: /admin <span style="font-size:9px;color:#2563EB;font-weight:700;">[DAST]</span></span></a><span style="font-size:10.5px;color:#EA580C;font-weight:700;padding:2px 9px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:5px;">HIGH · CVSS 8.1</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A01</span></div><div class="toc-item"><span class="toc-num">#004</span><a href="#finding-4" style="text-decoration:none;flex:1;"><span class="toc-title">Sensitive Endpoint Accessible Without Auth: /admin/ <span style="font-size:9px;color:#2563EB;font-weight:700;">[DAST]</span></span></a><span style="font-size:10.5px;color:#EA580C;font-weight:700;padding:2px 9px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:5px;">HIGH · CVSS 8.1</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A01</span></div><div class="toc-item"><span class="toc-num">#005</span><a href="#finding-5" style="text-decoration:none;flex:1;"><span class="toc-title">Sensitive Data Exposed in Response: possible credit card number <span style="font-size:9px;color:#2563EB;font-weight:700;">[DAST]</span> <span style="font-size:9px;color:#94A3B8;">[2 endpoints]</span></span></a><span style="font-size:10.5px;color:#EA580C;font-weight:700;padding:2px 9px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:5px;">HIGH · CVSS 7.5</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A02</span></div><div class="toc-item"><span class="toc-num">#006</span><a href="#finding-6" style="text-decoration:none;flex:1;"><span class="toc-title">Missing HSTS Header <span style="font-size:9px;color:#2563EB;font-weight:700;">[DAST]</span></span></a><span style="font-size:10.5px;color:#D97706;font-weight:700;padding:2px 9px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:5px;">MEDIUM · CVSS 5.9</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A02</span></div><div class="toc-item"><span class="toc-num">#007</span><a href="#finding-7" style="text-decoration:none;flex:1;"><span class="toc-title">Missing X-Content-Type-Options Header <span style="font-size:9px;color:#15803D;font-weight:800;" title="Confirmed by SAST and DAST">✓</span></span></a><span style="font-size:10.5px;color:#D97706;font-weight:700;padding:2px 9px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:5px;">MEDIUM · CVSS 5.3</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A05</span></div><div class="toc-item"><span class="toc-num">#008</span><a href="#finding-8" style="text-decoration:none;flex:1;"><span class="toc-title">Missing X-Frame-Options Header <span style="font-size:9px;color:#15803D;font-weight:800;" title="Confirmed by SAST and DAST">✓</span></span></a><span style="font-size:10.5px;color:#D97706;font-weight:700;padding:2px 9px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:5px;">MEDIUM · CVSS 5.3</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A05</span></div><div class="toc-item"><span class="toc-num">#009</span><a href="#finding-9" style="text-decoration:none;flex:1;"><span class="toc-title">Cookie Missing HttpOnly Flag <span style="font-size:9px;color:#9333EA;font-weight:700;">[SAST]</span></span></a><span style="font-size:10.5px;color:#D97706;font-weight:700;padding:2px 9px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:5px;">MEDIUM · CVSS 6.5</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A07</span></div><div class="toc-item"><span class="toc-num">#010</span><a href="#finding-10" style="text-decoration:none;flex:1;"><span class="toc-title">Dangerous HTTP Methods Enabled: TRACE <span style="font-size:9px;color:#2563EB;font-weight:700;">[DAST]</span> <span style="font-size:9px;color:#94A3B8;">[7 endpoints]</span></span></a><span style="font-size:10.5px;color:#D97706;font-weight:700;padding:2px 9px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:5px;">MEDIUM · CVSS 6.5</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A01</span></div><div class="toc-item"><span class="toc-num">#011</span><a href="#finding-11" style="text-decoration:none;flex:1;"><span class="toc-title">Mixed Content — HTTP Resources on HTTPS Page <span style="font-size:9px;color:#2563EB;font-weight:700;">[DAST]</span></span></a><span style="font-size:10.5px;color:#D97706;font-weight:700;padding:2px 9px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:5px;">MEDIUM · CVSS 5.9</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A02</span></div><div class="toc-item"><span class="toc-num">#012</span><a href="#finding-12" style="text-decoration:none;flex:1;"><span class="toc-title">Session Cookie Missing HttpOnly Flag <span style="font-size:9px;color:#2563EB;font-weight:700;">[DAST]</span></span></a><span style="font-size:10.5px;color:#D97706;font-weight:700;padding:2px 9px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:5px;">MEDIUM · CVSS 6.5</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A07</span></div><div class="toc-item"><span class="toc-num">#013</span><a href="#finding-13" style="text-decoration:none;flex:1;"><span class="toc-title">Subresource Integrity (SRI) Attribute Missing <span style="font-size:9px;color:#2563EB;font-weight:700;">[DAST]</span></span></a><span style="font-size:10.5px;color:#D97706;font-weight:700;padding:2px 9px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:5px;">MEDIUM · CVSS 5.5</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A08</span></div><div class="toc-item"><span class="toc-num">#014</span><a href="#finding-14" style="text-decoration:none;flex:1;"><span class="toc-title">Missing Referrer-Policy <span style="font-size:9px;color:#15803D;font-weight:800;" title="Confirmed by SAST and DAST">✓</span></span></a><span style="font-size:10.5px;color:#2563EB;font-weight:700;padding:2px 9px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:5px;">LOW · CVSS 2.7</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A05</span></div><div class="toc-item"><span class="toc-num">#015</span><a href="#finding-15" style="text-decoration:none;flex:1;"><span class="toc-title">Missing Permissions-Policy <span style="font-size:9px;color:#15803D;font-weight:800;" title="Confirmed by SAST and DAST">✓</span></span></a><span style="font-size:10.5px;color:#2563EB;font-weight:700;padding:2px 9px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:5px;">LOW · CVSS 2.7</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A05</span></div><div class="toc-item"><span class="toc-num">#016</span><a href="#finding-16" style="text-decoration:none;flex:1;"><span class="toc-title">Server Technology Version Disclosed: Microsoft-IIS/8.5 <span style="font-size:9px;color:#2563EB;font-weight:700;">[DAST]</span></span></a><span style="font-size:10.5px;color:#2563EB;font-weight:700;padding:2px 9px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:5px;">LOW · CVSS 2.7</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A05</span></div><div class="toc-item"><span class="toc-num">#017</span><a href="#finding-17" style="text-decoration:none;flex:1;"><span class="toc-title">Server Version Disclosure <span style="font-size:9px;color:#9333EA;font-weight:700;">[SAST]</span></span></a><span style="font-size:10.5px;color:#2563EB;font-weight:700;padding:2px 9px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:5px;">LOW · CVSS 2.7</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A05</span></div><div class="toc-item"><span class="toc-num">#018</span><a href="#finding-18" style="text-decoration:none;flex:1;"><span class="toc-title">Session Cookie Missing SameSite <span style="font-size:9px;color:#2563EB;font-weight:700;">[DAST]</span></span></a><span style="font-size:10.5px;color:#2563EB;font-weight:700;padding:2px 9px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:5px;">LOW · CVSS 4.2</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A07</span></div><div class="toc-item"><span class="toc-num">#019</span><a href="#finding-19" style="text-decoration:none;flex:1;"><span class="toc-title">Password Field Allows Autocomplete <span style="font-size:9px;color:#2563EB;font-weight:700;">[DAST]</span> <span style="font-size:9px;color:#94A3B8;">[2 endpoints]</span></span></a><span style="font-size:10.5px;color:#2563EB;font-weight:700;padding:2px 9px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:5px;">LOW · CVSS 4.2</span><span style="font-size:10px;color:#94A3B8;margin-left:8px;font-family:DM Mono,monospace;">A07</span></div></div>
+  <div class="section-header" id="s5"><div class="section-num">05</div><div class="section-title">Detailed Findings with Evidence</div></div>
+  <div class="finding" id="finding-1">
+  <div class="finding-header">
+    <span class="finding-num">#001</span>
+    <span class="finding-title">Missing Content-Security-Policy Header</span>
+    <span class="confirmed-badge">✓ CONFIRMED BY SAST + DAST</span>
+    <span class="sev-badge" style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;">HIGH</span>
+    <span class="cvss-badge">CVSS 7.5</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A05 — Security Misconfiguration</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">99%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>The response from https://octane.stpi.in/ is missing the &#39;content-security-policy&#39; security header. This reduces browser-level protection against common attack classes.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Significant security risk with a realistic exploitation path. Successful exploitation could lead to unauthorized access, sensitive data exposure, or privilege escalation. Remediation within 1-2 weeks is strongly recommended.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#EA580C;">7.5</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#EA580C;">HIGH</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add CSP: Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39;</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>header_presence_check</span><br><span style='color:#79C0FF;'>missing_header</span>: <span style='color:#C9D1D9;'>content-security-policy</span><br><span style='color:#79C0FF;'>headers_present</span>: <span style='color:#C9D1D9;'>[&#39;x-powered-by&#39;]</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-1">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-1"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=GJIHPKNAJALKKNJHPAIGGDCM</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=HJIHPKNAFAECPJPOGIDHAIPA; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:15 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-2">
+  <div class="finding-header">
+    <span class="finding-num">#002</span>
+    <span class="finding-title">Missing HSTS Header</span>
+    <span class="method-badge" style="background:rgba(168,85,247,0.1);color:#9333EA;border:1px solid rgba(168,85,247,0.28);">SAST</span>
+    <span class="sev-badge" style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;">HIGH</span>
+    <span class="cvss-badge">CVSS 7.5</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A05 — Security Misconfiguration</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">100%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>HTTP Strict Transport Security not set — SSL stripping attacks possible.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Significant security risk with a realistic exploitation path. Successful exploitation could lead to unauthorized access, sensitive data exposure, or privilege escalation. Remediation within 1-2 weeks is strongly recommended.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#EA580C;">7.5</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#EA580C;">HIGH</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add: Strict-Transport-Security: max-age=31536000; includeSubDomains</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>rule_id</span>: <span style='color:#C9D1D9;'>SAST-H01</span><br><span style='color:#79C0FF;'>snippet</span>: <span style='color:#C9D1D9;'>Response header &#39;strict-transport-security&#39; — NOT PRESENT</span><br><span style='color:#79C0FF;'>cwe</span>: <span style='color:#C9D1D9;'>CWE-319</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-2">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-2"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=GJIHPKNAJALKKNJHPAIGGDCM</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=HJIHPKNAFAECPJPOGIDHAIPA; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:15 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs"><a class="ref-link" href="https://owasp.org/A05_2021-Security_Misconfiguration/" target="_blank">https://owasp.org/A05_2021-Security_Misconfigurati…</a></div></div>
+  </div>
+</div><div class="finding" id="finding-3">
+  <div class="finding-header">
+    <span class="finding-num">#003</span>
+    <span class="finding-title">Sensitive Endpoint Accessible Without Auth: /admin</span>
+    <span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span>
+    <span class="sev-badge" style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;">HIGH</span>
+    <span class="cvss-badge">CVSS 8.1</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A01 — Broken Access Control</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/admin</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">82%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>The path &#39;/admin&#39; returned HTTP 200 with sensitive content without authentication. Keywords found: [&#39;admin&#39;]. An unauthenticated attacker can access this resource directly.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Significant security risk with a realistic exploitation path. Successful exploitation could lead to unauthorized access, sensitive data exposure, or privilege escalation. Remediation within 1-2 weeks is strongly recommended.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#EA580C;">8.1</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#EA580C;">HIGH</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Require authentication for all administrative paths. Implement server-side role-based access control. Never rely on obscurity — check permissions on every request.</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>forced_browsing</span><br><span style='color:#79C0FF;'>response_status</span>: <span style='color:#C9D1D9;'>200</span><br><span style='color:#79C0FF;'>response_size</span>: <span style='color:#C9D1D9;'>7701</span><br><span style='color:#79C0FF;'>keywords_found</span>: <span style='color:#C9D1D9;'>[&#39;admin&#39;]</span><br><span style='color:#79C0FF;'>content_snippet</span>: <span style='color:#C9D1D9;'>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en-us&quot; id=&quot;extr-page&quot;&gt;
+	&lt;head&gt;
+		&lt;meta charset=&quot;utf-8&quot;&gt;
+		&lt;title&gt; Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI &lt;/title&gt;
+		&lt;meta name=&quot;description&quot; content=&quot;&quot;&gt;
+		&lt;meta name=&quot;author&quot; content=&quot;&quot;&gt;
+		&lt;meta name=&quot;v</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-3">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-3"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=IJIHPKNAGMDEPJPNJPGFMIFN</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=JJIHPKNABHEJPHPKMPDJMLGM; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:18 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs"><a class="ref-link" href="https://owasp.org/www-community/attacks/Forced_browsing" target="_blank">https://owasp.org/www-community/attacks/Forced_bro…</a></div></div>
+  </div>
+</div><div class="finding" id="finding-4">
+  <div class="finding-header">
+    <span class="finding-num">#004</span>
+    <span class="finding-title">Sensitive Endpoint Accessible Without Auth: /admin/</span>
+    <span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span>
+    <span class="sev-badge" style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;">HIGH</span>
+    <span class="cvss-badge">CVSS 8.1</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A01 — Broken Access Control</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/admin/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">82%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>The path &#39;/admin/&#39; returned HTTP 200 with sensitive content without authentication. Keywords found: [&#39;admin&#39;]. An unauthenticated attacker can access this resource directly.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Significant security risk with a realistic exploitation path. Successful exploitation could lead to unauthorized access, sensitive data exposure, or privilege escalation. Remediation within 1-2 weeks is strongly recommended.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#EA580C;">8.1</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#EA580C;">HIGH</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Require authentication for all administrative paths. Implement server-side role-based access control. Never rely on obscurity — check permissions on every request.</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>forced_browsing</span><br><span style='color:#79C0FF;'>response_status</span>: <span style='color:#C9D1D9;'>200</span><br><span style='color:#79C0FF;'>response_size</span>: <span style='color:#C9D1D9;'>7701</span><br><span style='color:#79C0FF;'>keywords_found</span>: <span style='color:#C9D1D9;'>[&#39;admin&#39;]</span><br><span style='color:#79C0FF;'>content_snippet</span>: <span style='color:#C9D1D9;'>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en-us&quot; id=&quot;extr-page&quot;&gt;
+	&lt;head&gt;
+		&lt;meta charset=&quot;utf-8&quot;&gt;
+		&lt;title&gt; Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI &lt;/title&gt;
+		&lt;meta name=&quot;description&quot; content=&quot;&quot;&gt;
+		&lt;meta name=&quot;author&quot; content=&quot;&quot;&gt;
+		&lt;meta name=&quot;v</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-4">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-4"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=IJIHPKNAGMDEPJPNJPGFMIFN</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=JJIHPKNABHEJPHPKMPDJMLGM; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:18 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs"><a class="ref-link" href="https://owasp.org/www-community/attacks/Forced_browsing" target="_blank">https://owasp.org/www-community/attacks/Forced_bro…</a></div></div>
+  </div>
+</div><div class="finding" id="finding-5">
+  <div class="finding-header">
+    <span class="finding-num">#005</span>
+    <span class="finding-title">Sensitive Data Exposed in Response: possible credit card number</span>
+    <span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span>
+    <span class="sev-badge" style="background:#FFF7ED;color:#EA580C;border:1px solid #FED7AA;">HIGH</span>
+    <span class="cvss-badge">CVSS 7.5</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A02 — Cryptographic Failures</span>
+    
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">78%</span>
+  </div>
+  <div class="affected-urls"><div class="affected-urls-label">Affected Endpoints (2)</div><div class="affected-urls-list"><span class="url-pill">https://octane.stpi.in/</span><span class="url-pill">https://octane.stpi.in/stylesheets/style.css</span></div></div>
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>The response at &#39;https://octane.stpi.in/&#39; contains possible credit card number. Sensitive values must never be returned in API responses unnecessarily. This data can be captured by a MITM or logged by proxies.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Significant security risk with a realistic exploitation path. Successful exploitation could lead to unauthorized access, sensitive data exposure, or privilege escalation. Remediation within 1-2 weeks is strongly recommended.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#EA580C;">7.5</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#EA580C;">HIGH</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Remove sensitive fields from API responses. Apply field-level encryption for PII. Never return credentials, keys, or tokens in responses.</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>response_body_pattern</span><br><span style='color:#79C0FF;'>pattern_description</span>: <span style='color:#C9D1D9;'>possible credit card number</span><br><span style='color:#79C0FF;'>matched_snippet</span>: <span style='color:#C9D1D9;'>61556221982890</span><br><span style='color:#79C0FF;'>response_status</span>: <span style='color:#C9D1D9;'>200</span><br><span style='color:#79C0FF;'>content_type</span>: <span style='color:#C9D1D9;'>text/html</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-5">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-5"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=IJIHPKNAGMDEPJPNJPGFMIFN</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=JJIHPKNABHEJPHPKMPDJMLGM; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:18 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-6">
+  <div class="finding-header">
+    <span class="finding-num">#006</span>
+    <span class="finding-title">Missing HSTS Header</span>
+    <span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span>
+    <span class="sev-badge" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">MEDIUM</span>
+    <span class="cvss-badge">CVSS 5.9</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A02 — Cryptographic Failures</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">99%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>The HTTPS endpoint &#39;https://octane.stpi.in/&#39; does not send the Strict-Transport-Security header. Without HSTS, browsers may connect over HTTP on subsequent visits, enabling SSL-stripping attacks.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Moderate risk. Exploitation requires specific conditions, user interaction, or multiple steps, but could lead to information disclosure, partial unauthorized access, or facilitation of more severe attacks.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#D97706;">5.9</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#D97706;">MEDIUM</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add: Strict-Transport-Security: max-age=31536000; includeSubDomains; preload</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>hsts_header_check</span><br><span style='color:#79C0FF;'>missing_header</span>: <span style='color:#C9D1D9;'>strict-transport-security</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-6">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-6"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=GJIHPKNAJALKKNJHPAIGGDCM</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=HJIHPKNAFAECPJPOGIDHAIPA; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:15 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-7">
+  <div class="finding-header">
+    <span class="finding-num">#007</span>
+    <span class="finding-title">Missing X-Content-Type-Options Header</span>
+    <span class="confirmed-badge">✓ CONFIRMED BY SAST + DAST</span>
+    <span class="sev-badge" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">MEDIUM</span>
+    <span class="cvss-badge">CVSS 5.3</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A05 — Security Misconfiguration</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">99%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>The response from https://octane.stpi.in/ is missing the &#39;x-content-type-options&#39; security header. This reduces browser-level protection against common attack classes.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Moderate risk. Exploitation requires specific conditions, user interaction, or multiple steps, but could lead to information disclosure, partial unauthorized access, or facilitation of more severe attacks.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#D97706;">5.3</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#D97706;">MEDIUM</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add: X-Content-Type-Options: nosniff</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>header_presence_check</span><br><span style='color:#79C0FF;'>missing_header</span>: <span style='color:#C9D1D9;'>x-content-type-options</span><br><span style='color:#79C0FF;'>headers_present</span>: <span style='color:#C9D1D9;'>[&#39;x-powered-by&#39;]</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-7">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-7"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=GJIHPKNAJALKKNJHPAIGGDCM</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=HJIHPKNAFAECPJPOGIDHAIPA; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:15 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-8">
+  <div class="finding-header">
+    <span class="finding-num">#008</span>
+    <span class="finding-title">Missing X-Frame-Options Header</span>
+    <span class="confirmed-badge">✓ CONFIRMED BY SAST + DAST</span>
+    <span class="sev-badge" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">MEDIUM</span>
+    <span class="cvss-badge">CVSS 5.3</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A05 — Security Misconfiguration</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">99%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>The response from https://octane.stpi.in/ is missing the &#39;x-frame-options&#39; security header. This reduces browser-level protection against common attack classes.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Moderate risk. Exploitation requires specific conditions, user interaction, or multiple steps, but could lead to information disclosure, partial unauthorized access, or facilitation of more severe attacks.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#D97706;">5.3</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#D97706;">MEDIUM</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add: X-Frame-Options: DENY  (or use CSP frame-ancestors)</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>header_presence_check</span><br><span style='color:#79C0FF;'>missing_header</span>: <span style='color:#C9D1D9;'>x-frame-options</span><br><span style='color:#79C0FF;'>headers_present</span>: <span style='color:#C9D1D9;'>[&#39;x-powered-by&#39;]</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-8">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-8"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=GJIHPKNAJALKKNJHPAIGGDCM</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=HJIHPKNAFAECPJPOGIDHAIPA; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:15 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-9">
+  <div class="finding-header">
+    <span class="finding-num">#009</span>
+    <span class="finding-title">Cookie Missing HttpOnly Flag</span>
+    <span class="method-badge" style="background:rgba(168,85,247,0.1);color:#9333EA;border:1px solid rgba(168,85,247,0.28);">SAST</span>
+    <span class="sev-badge" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">MEDIUM</span>
+    <span class="cvss-badge">CVSS 6.5</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A07 — Security Misconfiguration</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">90%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>Session cookie accessible to JavaScript — theft via XSS possible.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Moderate risk. Exploitation requires specific conditions, user interaction, or multiple steps, but could lead to information disclosure, partial unauthorized access, or facilitation of more severe attacks.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#D97706;">6.5</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#D97706;">MEDIUM</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add HttpOnly flag to all session cookies.</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>rule_id</span>: <span style='color:#C9D1D9;'>SAST-H08</span><br><span style='color:#79C0FF;'>snippet</span>: <span style='color:#C9D1D9;'>Set-Cookie: ASPSESSIONIDQEDDBBSA=IJIHPKNAGMDEPJPNJPGFMIFN; secure; path=/</span><br><span style='color:#79C0FF;'>cwe</span>: <span style='color:#C9D1D9;'>CWE-1004</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-9">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-9"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=GJIHPKNAJALKKNJHPAIGGDCM</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=HJIHPKNAFAECPJPOGIDHAIPA; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:15 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-10">
+  <div class="finding-header">
+    <span class="finding-num">#010</span>
+    <span class="finding-title">Dangerous HTTP Methods Enabled: TRACE</span>
+    <span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span>
+    <span class="sev-badge" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">MEDIUM</span>
+    <span class="cvss-badge">CVSS 6.5</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A01 — Broken Access Control</span>
+    
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">90%</span>
+  </div>
+  <div class="affected-urls"><div class="affected-urls-label">Affected Endpoints (7)</div><div class="affected-urls-list"><span class="url-pill">https://octane.stpi.in/</span><span class="url-pill">https://octane.stpi.in/stylesheets/bootstrap.css</span><span class="url-pill">https://octane.stpi.in/stylesheets/style.css</span><span class="url-pill">https://octane.stpi.in/stylesheets/responsive.css</span><span class="url-pill">https://octane.stpi.in/stylesheets/colors/color7.css</span><span class="url-pill">https://octane.stpi.in/stylesheets/animate.compat.css</span><span class="url-pill">https://octane.stpi.in/icon/apple-touch-icon-48-precomposed.png</span></div></div>
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>OPTIONS request to &#39;https://octane.stpi.in/&#39; revealed dangerous HTTP methods in the Allow header: OPTIONS, TRACE, GET, HEAD, POST. TRACE enables Cross-Site Tracing (XST). PUT/DELETE may allow unauthorized data modification.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Moderate risk. Exploitation requires specific conditions, user interaction, or multiple steps, but could lead to information disclosure, partial unauthorized access, or facilitation of more severe attacks.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#D97706;">6.5</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#D97706;">MEDIUM</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Disable TRACE globally in web server config. Restrict PUT/DELETE to authenticated and authorized endpoints only. Return 405 for all unexpected HTTP methods.</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>options_probe</span><br><span style='color:#79C0FF;'>allow_header</span>: <span style='color:#C9D1D9;'>OPTIONS, TRACE, GET, HEAD, POST</span><br><span style='color:#79C0FF;'>dangerous_methods</span>: <span style='color:#C9D1D9;'>[&#39;TRACE&#39;]</span><br><span style='color:#79C0FF;'>response_status</span>: <span style='color:#C9D1D9;'>200</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-10">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-10"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=IJIHPKNAGMDEPJPNJPGFMIFN</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=JJIHPKNABHEJPHPKMPDJMLGM; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:18 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-11">
+  <div class="finding-header">
+    <span class="finding-num">#011</span>
+    <span class="finding-title">Mixed Content — HTTP Resources on HTTPS Page</span>
+    <span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span>
+    <span class="sev-badge" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">MEDIUM</span>
+    <span class="cvss-badge">CVSS 5.9</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A02 — Cryptographic Failures</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">88%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>The HTTPS page at &#39;https://octane.stpi.in/&#39; loads 3 resource(s) over plain HTTP. Mixed content allows attackers to intercept or modify these resources, potentially injecting malicious scripts or content.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Moderate risk. Exploitation requires specific conditions, user interaction, or multiple steps, but could lead to information disclosure, partial unauthorized access, or facilitation of more severe attacks.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#D97706;">5.9</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#D97706;">MEDIUM</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Update all resource URLs to use HTTPS. Add Content-Security-Policy: upgrade-insecure-requests or block-all-mixed-content directives.</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>mixed_content_scan</span><br><span style='color:#79C0FF;'>http_resources_count</span>: <span style='color:#C9D1D9;'>3</span><br><span style='color:#79C0FF;'>examples</span>: <span style='color:#C9D1D9;'>[&#39;href=&quot;http://www.stpinext.in/&quot;&#39;, &#39;href=&quot;http://www.stpinext.in/&quot;&#39;, &#39;href=&quot;http://www.webxindia.com&quot;&#39;]</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-11">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-11"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=IJIHPKNAGMDEPJPNJPGFMIFN</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=JJIHPKNABHEJPHPKMPDJMLGM; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:18 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-12">
+  <div class="finding-header">
+    <span class="finding-num">#012</span>
+    <span class="finding-title">Session Cookie Missing HttpOnly Flag</span>
+    <span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span>
+    <span class="sev-badge" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">MEDIUM</span>
+    <span class="cvss-badge">CVSS 6.5</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A07 — Identification and Authentication Failures</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">95%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>Set-Cookie header at https://octane.stpi.in/ is missing the &#39;httponly&#39; attribute.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Moderate risk. Exploitation requires specific conditions, user interaction, or multiple steps, but could lead to information disclosure, partial unauthorized access, or facilitation of more severe attacks.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#D97706;">6.5</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#D97706;">MEDIUM</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add HttpOnly to all session cookies.</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>cookie_flag_check</span><br><span style='color:#79C0FF;'>set_cookie_header</span>: <span style='color:#C9D1D9;'>ASPSESSIONIDQEDDBBSA=JJIHPKNABHEJPHPKMPDJMLGM; secure; path=/</span><br><span style='color:#79C0FF;'>missing_flag</span>: <span style='color:#C9D1D9;'>httponly</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-12">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-12"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=IJIHPKNAGMDEPJPNJPGFMIFN</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=JJIHPKNABHEJPHPKMPDJMLGM; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:18 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-13">
+  <div class="finding-header">
+    <span class="finding-num">#013</span>
+    <span class="finding-title">Subresource Integrity (SRI) Attribute Missing</span>
+    <span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span>
+    <span class="sev-badge" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;">MEDIUM</span>
+    <span class="cvss-badge">CVSS 5.5</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A08 — Software and Data Integrity Failures</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">90%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>Found 4 external script/link tag(s) at https://octane.stpi.in/ without an integrity attribute. Without SRI, if the external CDN is compromised, malicious code could be injected into your pages.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Moderate risk. Exploitation requires specific conditions, user interaction, or multiple steps, but could lead to information disclosure, partial unauthorized access, or facilitation of more severe attacks.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#D97706;">5.5</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#D97706;">MEDIUM</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add integrity and crossorigin attributes to all external scripts/links: &lt;script src=&#39;...&#39; integrity=&#39;sha384-...&#39; crossorigin=&#39;anonymous&#39;&gt;. Generate hashes at: https://www.srihash.org</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>sri_attribute_check</span><br><span style='color:#79C0FF;'>missing_count</span>: <span style='color:#C9D1D9;'>4</span><br><span style='color:#79C0FF;'>examples</span>: <span style='color:#C9D1D9;'>[&#39;&lt;script src=&quot;https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js&quot;&gt;&#39;, &#39;&lt;script src=&quot;https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js&quot;&gt;&#39;, &#39;&lt;script src=&quot;https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js&quot;&gt;&#39;]</span><br><span style='color:#79C0FF;'>owasp_ref</span>: <span style='color:#C9D1D9;'>CWE-345</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-13">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-13"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=IJIHPKNAGMDEPJPNJPGFMIFN</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=JJIHPKNABHEJPHPKMPDJMLGM; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:18 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs"><a class="ref-link" href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity" target="_blank">https://developer.mozilla.org/en-US/docs/Web/Secur…</a></div></div>
+  </div>
+</div><div class="finding" id="finding-14">
+  <div class="finding-header">
+    <span class="finding-num">#014</span>
+    <span class="finding-title">Missing Referrer-Policy</span>
+    <span class="confirmed-badge">✓ CONFIRMED BY SAST + DAST</span>
+    <span class="sev-badge" style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;">LOW</span>
+    <span class="cvss-badge">CVSS 2.7</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A05 — Security Misconfiguration</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">99%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>The response from https://octane.stpi.in/ is missing the &#39;referrer-policy&#39; security header. This reduces browser-level protection against common attack classes.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Limited direct impact. Low likelihood of active exploitation but contributes to attack surface or aids adversary reconnaissance. Address during next planned maintenance cycle.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#2563EB;">2.7</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#2563EB;">LOW</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add: Referrer-Policy: strict-origin-when-cross-origin</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>header_presence_check</span><br><span style='color:#79C0FF;'>missing_header</span>: <span style='color:#C9D1D9;'>referrer-policy</span><br><span style='color:#79C0FF;'>headers_present</span>: <span style='color:#C9D1D9;'>[&#39;x-powered-by&#39;]</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-14">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-14"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=GJIHPKNAJALKKNJHPAIGGDCM</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=HJIHPKNAFAECPJPOGIDHAIPA; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:15 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-15">
+  <div class="finding-header">
+    <span class="finding-num">#015</span>
+    <span class="finding-title">Missing Permissions-Policy</span>
+    <span class="confirmed-badge">✓ CONFIRMED BY SAST + DAST</span>
+    <span class="sev-badge" style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;">LOW</span>
+    <span class="cvss-badge">CVSS 2.7</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A05 — Security Misconfiguration</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">99%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>The response from https://octane.stpi.in/ is missing the &#39;permissions-policy&#39; security header. This reduces browser-level protection against common attack classes.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Limited direct impact. Low likelihood of active exploitation but contributes to attack surface or aids adversary reconnaissance. Address during next planned maintenance cycle.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#2563EB;">2.7</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#2563EB;">LOW</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add Permissions-Policy to disable unneeded browser APIs</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>header_presence_check</span><br><span style='color:#79C0FF;'>missing_header</span>: <span style='color:#C9D1D9;'>permissions-policy</span><br><span style='color:#79C0FF;'>headers_present</span>: <span style='color:#C9D1D9;'>[&#39;x-powered-by&#39;]</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-15">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-15"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=GJIHPKNAJALKKNJHPAIGGDCM</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=HJIHPKNAFAECPJPOGIDHAIPA; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:15 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-16">
+  <div class="finding-header">
+    <span class="finding-num">#016</span>
+    <span class="finding-title">Server Technology Version Disclosed: Microsoft-IIS/8.5</span>
+    <span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span>
+    <span class="sev-badge" style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;">LOW</span>
+    <span class="cvss-badge">CVSS 2.7</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A05 — Security Misconfiguration</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">96%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>The &#39;server&#39; header reveals the server technology and version: &#39;Microsoft-IIS/8.5&#39;. Attackers can use this to target known CVEs for that specific version.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Limited direct impact. Low likelihood of active exploitation but contributes to attack surface or aids adversary reconnaissance. Address during next planned maintenance cycle.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#2563EB;">2.7</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#2563EB;">LOW</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Remove or generalise the &#39;server&#39; header in server configuration.</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>header_value_pattern</span><br><span style='color:#79C0FF;'>header</span>: <span style='color:#C9D1D9;'>server</span><br><span style='color:#79C0FF;'>value</span>: <span style='color:#C9D1D9;'>Microsoft-IIS/8.5</span><br><span style='color:#79C0FF;'>version_match</span>: <span style='color:#C9D1D9;'>Microsoft-IIS/8.5</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-16">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-16"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=GJIHPKNAJALKKNJHPAIGGDCM</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=HJIHPKNAFAECPJPOGIDHAIPA; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:15 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-17">
+  <div class="finding-header">
+    <span class="finding-num">#017</span>
+    <span class="finding-title">Server Version Disclosure</span>
+    <span class="method-badge" style="background:rgba(168,85,247,0.1);color:#9333EA;border:1px solid rgba(168,85,247,0.28);">SAST</span>
+    <span class="sev-badge" style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;">LOW</span>
+    <span class="cvss-badge">CVSS 2.7</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A05 — Security Misconfiguration</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">100%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>Server header exposes version: Microsoft-IIS/8.5</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Limited direct impact. Low likelihood of active exploitation but contributes to attack surface or aids adversary reconnaissance. Address during next planned maintenance cycle.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#2563EB;">2.7</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#2563EB;">LOW</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Remove or obfuscate the Server header.</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>rule_id</span>: <span style='color:#C9D1D9;'>SAST-H07</span><br><span style='color:#79C0FF;'>snippet</span>: <span style='color:#C9D1D9;'>Server: Microsoft-IIS/8.5</span><br><span style='color:#79C0FF;'>cwe</span>: <span style='color:#C9D1D9;'>CWE-200</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-17">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-17"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=GJIHPKNAJALKKNJHPAIGGDCM</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1032ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=HJIHPKNAFAECPJPOGIDHAIPA; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:15 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-18">
+  <div class="finding-header">
+    <span class="finding-num">#018</span>
+    <span class="finding-title">Session Cookie Missing SameSite</span>
+    <span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span>
+    <span class="sev-badge" style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;">LOW</span>
+    <span class="cvss-badge">CVSS 4.2</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A07 — Identification and Authentication Failures</span>
+    <span class="meta-label">Affected URL</span><span class="meta-val" style="grid-column:span 3;">https://octane.stpi.in/</span>
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">95%</span>
+  </div>
+  
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>Set-Cookie header at https://octane.stpi.in/ is missing the &#39;samesite&#39; attribute.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Limited direct impact. Low likelihood of active exploitation but contributes to attack surface or aids adversary reconnaissance. Address during next planned maintenance cycle.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#D97706;">4.2</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#D97706;">MEDIUM</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add SameSite=Strict or Lax to session cookies.</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>cookie_flag_check</span><br><span style='color:#79C0FF;'>set_cookie_header</span>: <span style='color:#C9D1D9;'>ASPSESSIONIDQEDDBBSA=JJIHPKNABHEJPHPKMPDJMLGM; secure; path=/</span><br><span style='color:#79C0FF;'>missing_flag</span>: <span style='color:#C9D1D9;'>samesite</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-18">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-18"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body"><span class="http-method">GET</span> / HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=IJIHPKNAGMDEPJPNJPGFMIFN</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 1059ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">cache-control</span>:<span class="http-header-val"> private</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/html</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">set-cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=JJIHPKNABHEJPHPKMPDJMLGM; secure; path=/</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:18 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 32532</span>
+
+
+&lt;!DOCTYPE html&gt;
+&lt;!--[if IE 8 ]&gt;&lt;html class=&quot;ie&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt; 
+&lt;![endif]--&gt;
+&lt;!--[if (gte IE 9)|!(IE)]&gt;&lt;!--&gt;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en-US&quot; lang=&quot;en-US&quot;&gt;&lt;!--&lt;![endif]--&gt;
+
+&lt;!-- Head --&gt;
+&lt;head&gt;
+    &lt;!-- Basic Page Needs --&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;meta http-equiv=&#39;X-UA-Compatible&#39; content=&#39;IE=edge,chrome=1&#39;&gt;&lt;![endif]--&gt;
+    &lt;title&gt;Welcome to STPI Octane| Internetworked North East CoEs to support technology led innovation by STPI&lt;/title&gt;		
+    &lt;meta name=&quot;keywords&quot; content=&quot;STPI, OCTANE, COEs, Center of Excellence, Software Technology Parks of India, Guwahati, Assam, India, MeitY&quot; /&gt;
+    &lt;META name=&quot;author&quot; content=&quot;Webx&quot; /&gt;
+
+    &lt;!-- Mobile Specific Metas --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+… [27 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div><div class="finding" id="finding-19">
+  <div class="finding-header">
+    <span class="finding-num">#019</span>
+    <span class="finding-title">Password Field Allows Autocomplete</span>
+    <span class="method-badge" style="background:rgba(59,130,246,0.1);color:#2563EB;border:1px solid rgba(59,130,246,0.28);">DAST</span>
+    <span class="sev-badge" style="background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;">LOW</span>
+    <span class="cvss-badge">CVSS 4.2</span>
+  </div>
+  <div class="finding-meta">
+    <span class="meta-label">OWASP</span>
+    <span class="meta-val" style="grid-column:span 3;">A07 — Identification and Authentication Failures</span>
+    
+    
+    <span class="meta-label">Confidence</span><span class="meta-val">85%</span>
+  </div>
+  <div class="affected-urls"><div class="affected-urls-label">Affected Endpoints (2)</div><div class="affected-urls-list"><span class="url-pill">https://octane.stpi.in/stylesheets/style.css</span><span class="url-pill">https://octane.stpi.in/stylesheets/colors/color7.css</span></div></div>
+  <div class="finding-body">
+    <div class="finding-section"><h4>Description</h4><p>A password input at https://octane.stpi.in/stylesheets/style.css does not have autocomplete=&#39;off&#39;. Browsers may cache credentials and expose them to other users on shared devices.</p></div>
+    <div class="finding-section"><h4>Impact</h4><div class="impact-box"><p>Limited direct impact. Low likelihood of active exploitation but contributes to attack surface or aids adversary reconnaissance. Address during next planned maintenance cycle.</p></div><div class="cvss-block"><div style="display:flex;align-items:center;gap:14px;"><div><div class="cvss-score-big" style="color:#D97706;">4.2</div><div style="font-size:9.5px;color:#64748B;margin-top:2px;">CVSS v3.1 Score</div></div><div><div style="font-size:13px;font-weight:800;color:#D97706;">MEDIUM</div><div style="font-size:9.5px;color:#64748B;">Rating</div></div></div><div class="cvss-vector">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N</div></div></div>
+    <div class="finding-section full-width"><h4>Remediation</h4><div class="fix-box"><p>Add autocomplete=&#39;off&#39; or autocomplete=&#39;new-password&#39; to all password fields.</p></div></div>
+    <div class="finding-section full-width"><h4>Detection Evidence</h4><div class="evidence-box"><span style='color:#79C0FF;'>detection_method</span>: <span style='color:#C9D1D9;'>dom_attribute_check</span><br><span style='color:#79C0FF;'>condition</span>: <span style='color:#C9D1D9;'>type=password without autocomplete=off</span></div></div>
+    <div class="finding-section full-width"><h4>Raw HTTP Evidence</h4><div class="http-evidence-wrap"><button class="ev-toggle" data-target="ev-19">▼ Show Raw HTTP Evidence</button><div class="ev-body" id="ev-19"><div class="http-card"><div class="http-card-head"><span class="http-card-label req">▶ RAW HTTP REQUEST</span><span class="http-card-meta">HTTPS · 133ms</span></div><div class="http-card-body"><span class="http-method">GET</span> /stylesheets/style.css HTTP/1.1
+<span class="http-header-key">host</span>:<span class="http-header-val"> octane.stpi.in</span>
+<span class="http-header-key">accept</span>:<span class="http-header-val"> */*</span>
+<span class="http-header-key">accept-encoding</span>:<span class="http-header-val"> gzip, deflate, br</span>
+<span class="http-header-key">connection</span>:<span class="http-header-val"> keep-alive</span>
+<span class="http-header-key">user-agent</span>:<span class="http-header-val"> VAPTForge/3.4.1 (Authorized Security Scanner)</span>
+<span class="http-header-key">cookie</span>:<span class="http-header-val"> ASPSESSIONIDQEDDBBSA=OJIHPKNAEKKDONCMFJKCIMIB; RequestVerificationToken=CBD099B7%2DA0AB%2DA3A5%2D3F52%2DE556B77397EE</span></div></div><div class="http-card"><div class="http-card-head"><span class="http-card-label res">◀ RAW HTTP RESPONSE</span><span class="http-card-meta">HTTPS · 133ms</span></div><div class="http-card-body">HTTP/1.1 <span class="http-status-ok">200</span>
+<span class="http-header-key">content-type</span>:<span class="http-header-val"> text/css</span>
+<span class="http-header-key">content-encoding</span>:<span class="http-header-val"> gzip</span>
+<span class="http-header-key">last-modified</span>:<span class="http-header-val"> Thu, 13 Mar 2025 06:30:38 GMT</span>
+<span class="http-header-key">accept-ranges</span>:<span class="http-header-val"> bytes</span>
+<span class="http-header-key">etag</span>:<span class="http-header-val"> &quot;07b316fe193db1:0&quot;</span>
+<span class="http-header-key">vary</span>:<span class="http-header-val"> Accept-Encoding</span>
+<span class="http-header-key">server</span>:<span class="http-header-val"> Microsoft-IIS/8.5</span>
+<span class="http-header-key">x-powered-by</span>:<span class="http-header-val"> ASP.NET</span>
+<span class="http-header-key">date</span>:<span class="http-header-val"> Sat, 23 May 2026 18:22:34 GMT</span>
+<span class="http-header-key">content-length</span>:<span class="http-header-val"> 17746</span>
+
+/**
+  * Name: Style
+  * Version: 1.0
+  * Author: Webx
+  * Author URI: http://www.webxindia.com
+*/
+
+@import url(&quot;font-awesome.css&quot;);
+@import url(&quot;flexslider.css&quot;);
+@import url(&quot;owl.carousel.css&quot;);
+@import url(&quot;shortcodes.css&quot;);
+@import url(&quot;revolution-slider.css&quot;);
+@import url(&quot;magnific-popup.css&quot;);
+@import url(&quot;justifiedGallery.css&quot;);
+@import url(&quot;jquery.fancybox.css&quot;);
+@import url(&quot;//fonts.googleapis.com/css?family=Hind+Siliguri:400,300,500,600,700&quot;);
+… [58 more lines truncated]</div></div></div></div></div>
+    <div class="finding-section full-width"><h4>References</h4><div class="refs">—</div></div>
+  </div>
+</div>
+  <div class="report-footer">
+    <span>VAPTForge Enterprise v4.0.0</span><span>·</span>
+    <span>Generated 2026-05-24 09:07 UTC</span><span>·</span>
+    <span>CONFIDENTIAL — NOT FOR DISTRIBUTION</span>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.ev-toggle').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var target = document.getElementById(btn.dataset.target);
+    if (!target) return;
+    var hidden = target.style.display === 'none';
+    target.style.display = hidden ? 'block' : 'none';
+    btn.textContent = hidden ? '▲ Hide' : '▼ Show';
+  });
+});
+</script>
+</body>
+</html>
